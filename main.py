@@ -3,23 +3,7 @@ from scapy.all import *
 import argparse
 import multithread_Scan
 import threading
-
-# TCP connect 스캔 함수 -> 삭제 예정
-def tcp_connect_scan(target_host, target_ports, src_port, results):
-    for port in target_ports:
-
-        # SYN 패킷 생성 및 전송
-        syn_packet = IP(dst=target_host) / TCP(sport=src_port, dport=port, flags="S")
-        response = sr1(syn_packet, timeout=1, verbose=0)
-
-        # 응답 받았고, TCP 계층이 있을 경우 처리
-        if response and response.haslayer(TCP):
-            if response[TCP].flags == "SA":  # SYN/ACK 패킷 확인
-                results.append(port)
-                # SYN/ACK를 받았을 때, 해당 포트는 열려있다고 판단
-                # 연결을 완료하는 ACK 패킷 전송
-                ack_packet = IP(dst=target_host) / TCP(sport=src_port, dport=port, flags="A")
-                send(ack_packet, verbose=0)
+import tcp_full_scan
 
 #--rand-src 파트
 def get_src_port(use_rand_src):
@@ -34,8 +18,8 @@ def main():
     parser.add_argument("host", help="Target host IP address")
     parser.add_argument("ports", help="Port range to scan (e.g., 1-100)")
     parser.add_argument("-sS", action="store_true", help="Use SYN scan mode")
+    parser.add_argument("-sT", action="store_true", help="Use full scan mode")
     parser.add_argument("--rand-src", action="store_true", help="Use random source port")
-    args = parser.parse_args()
     args = parser.parse_args()
 
     # 입력된 명령어 인수 사용
@@ -57,8 +41,10 @@ def main():
     for i in range(num_threads):
         if args.sS:
             thread = threading.Thread(target=multithread_Scan.syn_scanner, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
-        else:
-            thread = threading.Thread(target=tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
+        elif args.sT:
+            thread = threading.Thread(target=tcp_full_scan.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
+        else: #별도 지정 안했을 때 full scan
+            thread = threading.Thread(target=tcp_full_scan.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
         threads.append(thread)
         thread.start()
 
