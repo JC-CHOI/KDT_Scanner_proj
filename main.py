@@ -19,8 +19,8 @@ def tcp_connect_scan(target_host, target_ports):
                 open_ports.append(port)
                 # SYN/ACK를 받았을 때, 해당 포트는 열려있다고 판단
                 # 연결을 완료하는 ACK 패킷 전송
-                ack_packet = IP(dst=target_host) / TCP(sport=src_port, dport=port, flags="A")
-                send(ack_packet, verbose=0)
+                #ack_packet = IP(dst=target_host) / TCP(sport=src_port, dport=port, flags="A")
+                #send(ack_packet, verbose=0) # SYN_SCAN 을 위한 임시주석
 
     return open_ports
 
