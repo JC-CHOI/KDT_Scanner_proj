@@ -4,6 +4,7 @@ import argparse
 import multithread_Scan
 import threading
 import tcp_full_scan
+from PortParse import portParsing
 
 #--rand-src 파트
 def get_src_port(use_rand_src):
@@ -16,7 +17,7 @@ def main():
     # 명령어 인수 파싱을 위한 argparse 설정
     parser = argparse.ArgumentParser(description="Simple port scanner using Scapy")
     parser.add_argument("host", help="Target host IP address")
-    parser.add_argument("ports", help="Port range to scan (e.g., 1-100)")
+    parser.add_argument("-p", help="Port range to scan (e.g., 1-100 or 22,44,80)", type=portParsing)
     parser.add_argument("-sS", action="store_true", help="Use SYN scan mode")
     parser.add_argument("-sT", action="store_true", help="Use full scan mode")
     parser.add_argument("--rand-src", action="store_true", help="Use random source port")
@@ -26,12 +27,12 @@ def main():
     target_host = args.host
     start_time = datetime.now()
 
-    # 입력 받은 포트 범위 파싱하여 리스트로 변환
-    start_port, end_port = map(int, args.ports.split("-"))
-    target_ports = range(start_port, end_port + 1)
-    
     # 스캔 수행
-    num_threads = 50  # 원하는 스레드 수
+    num_threads = 100  # 원하는 스레드 수
+    if args.p is None:  # -p 옵션이 지정되지 않았을 때
+        target_ports = range(1, 1025)  # 기본적으로 1~1024 포트 범위 설정
+    else:
+        target_ports = args.p
     port_segments = [target_ports[i::num_threads] for i in range(num_threads)]
     
     threads = []
