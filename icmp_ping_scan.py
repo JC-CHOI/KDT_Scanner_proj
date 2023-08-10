@@ -4,6 +4,15 @@ import argparse
 import socket
 import ipaddress
 import logging
+import platform
+
+# Unix 계열일 경우에만 L3RawSocket 설정 적용
+if platform.system() != "Windows":
+    try:
+        from scapy.layers.inet import IP, ICMP
+        conf.L3socket = L3RawSocket
+    except ImportError:
+        pass # print("L3RawSocket 사용 불가")
 
 # '-'로 ip 범위 지정한 경우
 def parse_targets(targets):
@@ -42,7 +51,7 @@ def handle_cidr(target):
 
 # 단일 IP 형식인 경우
 def handle_single_ip(target):
-    return [ipaddress.ip_network(target, strict=False)]
+    return [str(ipaddress.ip_address(target))]
 
 # 호스트 형식(URL)인 경우 
 def handle_host_name(target):
