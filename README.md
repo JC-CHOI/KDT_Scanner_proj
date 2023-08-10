@@ -10,5 +10,6 @@ python main.py [host_name][start_port-end_port]
 options:
 <pre><code>
 -sS: Use SYN scan mode
+-sT: Use Connect scan mode (also it is default scan mode in this program)
 --rand-src: Use random source port
 </code></pre>
