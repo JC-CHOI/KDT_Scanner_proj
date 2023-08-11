@@ -1,17 +1,9 @@
 from datetime import datetime
 from scapy.all import *
 import argparse
-import scantype
-import threading
 import icmp_ping_scan
 from PortParse import portParsing
-
-#--rand-src 파트
-def get_src_port(use_rand_src):
-    if use_rand_src:
-        return RandShort()
-    else:
-        return 12345
+from port_scanner import perform_port_scan, get_src_port
         
 def main():
     # 명령어 인수 파싱을 위한 argparse 설정
@@ -37,25 +29,16 @@ def main():
             target_ports = range(1, 1025)  # 기본적으로 1~1024 포트 범위 설정
         else:
             target_ports = args.p
-        port_segments = [target_ports[i::num_threads] for i in range(num_threads)]
+            
+        if args.sS:
+            scan_type = "syn"
+        elif args.sT:
+            scan_type = "tcp"
+        else: #별도 지정 안했을 때 full scan
+            scan_type = "tcp"
+                
+        results = perform_port_scan(target_host, num_threads, target_ports, scan_type, args.rand_src)
         
-        threads = []
-        results = []
-    
-    #멀티 스레딩 
-        for i in range(num_threads):
-            if args.sS:
-                thread = threading.Thread(target=scantype.syn_scanner, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
-            elif args.sT:
-                thread = threading.Thread(target=scantype.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
-            else: #별도 지정 안했을 때 full scan
-                thread = threading.Thread(target=scantype.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
-            threads.append(thread)
-            thread.start()
-
-        for thread in threads:
-            thread.join()
-
         # 열린 포트 출력
         if results:
             print("Open ports:", results)
