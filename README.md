@@ -11,6 +11,7 @@ options:
 <pre><code>
 -sS: Use SYN scan mode
 -sT: Use Connect scan mode (also it is default scan mode in this program)
+-sn: Use ICMP ping scan mode
 --rand-src: Use random source port
 -p: Port range to scan (e.g., 1-100 or 22,44,80)
 </code></pre>
