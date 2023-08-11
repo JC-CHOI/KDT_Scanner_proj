@@ -1,9 +1,9 @@
 from datetime import datetime
 from scapy.all import *
 import argparse
-import multithread_Scan
+import scantype
 import threading
-import tcp_full_scan
+
 from PortParse import portParsing
 
 #--rand-src 파트
@@ -41,11 +41,11 @@ def main():
    #멀티 스레딩 
     for i in range(num_threads):
         if args.sS:
-            thread = threading.Thread(target=multithread_Scan.syn_scanner, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
+            thread = threading.Thread(target=scantype.syn_scanner, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
         elif args.sT:
-            thread = threading.Thread(target=tcp_full_scan.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
+            thread = threading.Thread(target=scantype.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
         else: #별도 지정 안했을 때 full scan
-            thread = threading.Thread(target=tcp_full_scan.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
+            thread = threading.Thread(target=scantype.tcp_connect_scan, args=(target_host, port_segments[i], get_src_port(args.rand_src), results))
         threads.append(thread)
         thread.start()
 
