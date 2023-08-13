@@ -3,6 +3,7 @@ import socket
 import ipaddress
 import logging
 import platform
+import concurrent.futures
 
 # Unix 계열일 경우에만 L3RawSocket 설정 적용
 if platform.system() != "Windows":
@@ -94,10 +95,12 @@ def icmp_ping_scan(targets):
     except ValueError:
         target_ips = handle_host_name(targets)
         
-    for target in target_ips:
-        up_hosts += send_icmp_request(target)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(send_icmp_request, target) for target in target_ips]
 
-    # 호스트 없는 경우
+        for future in concurrent.futures.as_completed(futures):
+            up_hosts += future.result()
+
     if not up_hosts:
         print("No hosts up.")
 
