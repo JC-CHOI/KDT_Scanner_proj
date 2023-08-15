@@ -24,7 +24,7 @@ def main():
         icmp_ping_scan.icmp_ping_scan(target_host)
     else:    
         # 스캔 수행
-        num_threads = 100  # 원하는 스레드 수
+        num_threads = 32  # 원하는 스레드 수
         if args.p is None:  # -p 옵션이 지정되지 않았을 때
             target_ports = range(1, 1025)  # 기본적으로 1~1024 포트 범위 설정
         else:
@@ -41,7 +41,9 @@ def main():
         
         # 열린 포트 출력
         if results:
-            print("Open ports:", results)
+            print("port    service")
+            for result in results:
+                print(f"{result[0]}       {result[1]}")
         else:
             print("No open ports found.")
             
