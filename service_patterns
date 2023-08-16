@@ -1,0 +1,47 @@
+domain,,\x07version\x04bind\0
+ftp,,(?i)^220.*ftp
+ftp,,^220.*Features
+ftp,,^220 Interscan.*
+ftp,,^421.*-Not
+ftp,,^421.*Proxy.*is
+ftp,,^421.*Sorry.*welcomed
+ftp,,^421.*Too many.*IP
+ftp,,^421.*Too many.*closing
+ftp,,^421.*FTP
+ftp,,^421.*You are
+ftp,,^431.*Unable
+ftp,,^500.*OOPS
+ftp,,^500.*Sorry,.*request
+ftp,,^550.*place
+ssl/http,,[ge] plain HTTP
+http,,^HTTP/\d+\.\d+
+imap,,^\* OK
+kerberos-sec,,krbtgt
+ldap,,\x02\x01\x01a
+ldap,,CN=NTDS Settings,CN=([^,]+),CN=Servers,CN=([^,]+),CN=Sites,CN=Configuration,DC=([^,]+),DC=([^,]+)
+ldap,,(?i)BIND required
+ms-wbt-server(RDP),,^\x03\0\0\x13
+ms-wbt-server(RDP),,^\x03\0\0\x0b
+msrpc,,^\x05\0\r\x03\x10\0\0\0\x18\0\0\0
+mysql(MariaDB),,MariaDB
+mysql,,^.\0\0\0\xff
+mysql,,^.\0\0\0\x0a
+netbios-ssn,,^\x83\0\0\x01
+pptp,,\0\x01\x1a\+<M
+pop2,,^\+ POP2
+pop3,,^\+OK
+postgresql,,ProcessStartupPacket\0\0
+rpcbind,,^\x80\0\0.\x72\xfe
+smtp,,(?i)^220.*smtp
+smtp,,^220.*mail
+smtp,,^220-InterScan.*
+smtp,,250 .* Hello \[.*\]
+smtp,,(?i)^421.*smtp
+smtp,,(?i)^554.*smtp
+smtp,,^554.*mail
+ssh,,^SSH-
+ssh,,^sshd: SSH
+telnet,,^\xff\xfd
+telnet,,^\xff\xfb
+vnc,,^RFB
+vmware-auth,,^220 VMware Authentication Daemon Version
