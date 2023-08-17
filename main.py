@@ -4,7 +4,9 @@ import argparse
 import icmp_ping_scan
 from PortParse import portParsing
 from port_scanner import perform_port_scan, get_src_port
-        
+from find_service import service_detect
+from osdetection import os_detect
+
 def main():
     # 명령어 인수 파싱을 위한 argparse 설정
     parser = argparse.ArgumentParser(description="Simple port scanner using Scapy")
@@ -12,7 +14,9 @@ def main():
     parser.add_argument("-p", help="Port range to scan (e.g., 1-100 or 22,44,80)", type=portParsing)
     parser.add_argument("-sS", action="store_true", help="Use SYN scan mode")
     parser.add_argument("-sT", action="store_true", help="Use full scan mode")
-    parser.add_argument("-sn", action="store_true", help="Perform ICMP Ping scan using icmp_ping_scan.py")
+    parser.add_argument("-sn", action="store_true", help="Perform ICMP Ping scan")
+    parser.add_argument("-sV", action="store_true", help="Service detection mode")
+    parser.add_argument("-O", action="store_true", help="OS detection mode")
     parser.add_argument("--rand-src", action="store_true", help="Use random source port")
     args = parser.parse_args()
 
@@ -20,6 +24,9 @@ def main():
     target_host = args.host
     start_time = datetime.now()
     
+    if args.O:
+        os_detect(target_host)
+
     if args.sn:
         icmp_ping_scan.icmp_ping_scan(target_host)
     else:    
@@ -29,7 +36,7 @@ def main():
             target_ports = range(1, 1025)  # 기본적으로 1~1024 포트 범위 설정
         else:
             target_ports = args.p
-            
+                
         if args.sS:
             scan_type = "syn"
         elif args.sT:
@@ -41,11 +48,16 @@ def main():
         
         # 열린 포트 출력
         if results:
+            open_port = []
             print("port    service")
             for result in results:
-                print(f"{result[0]}       {result[1]}")
+                open_port.append(result[0])
+                print("{:<{width}}{}".format(result[0], result[1], width=8))
         else:
             print("No open ports found.")
+        
+        if args.sV:
+            service_detect(target_host, open_port)
             
     end_time = datetime.now()
     elapsed_time = end_time - start_time
