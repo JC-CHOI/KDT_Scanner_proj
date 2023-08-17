@@ -81,6 +81,7 @@ def get_matching_service(host, port, req_list, protocol="TCP"):
 
 def service_detect(host, open_ports):
     # open_ports에서 각 포트에 대해 get_matching_service 함수를 호출
+    print("Starting detailed service detection...\n")
     for port in open_ports:
         matched_service = get_matching_service(host, port, REQ, "TCP")
         
@@ -89,5 +90,6 @@ def service_detect(host, open_ports):
 
         if matched_service:
             print(f"Matched service on port {port}: {matched_service}")
+        else:
+            print(f"Matched service on port {port}: {socket.getservbyport(port)}")
             
-    
