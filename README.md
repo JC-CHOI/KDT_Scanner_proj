@@ -1,5 +1,5 @@
 # KDT_Scanner_proj
-only for KDT Group 2 named 'Yu-iL-Mu-Yee'
+Only for KDT Group 2 named 'Yu-iL-Mu-Yee'
 
 ## How to run
 Options are adjusted using argparse.    
