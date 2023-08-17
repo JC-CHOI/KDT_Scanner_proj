@@ -8,3 +8,15 @@ def portParsing(portFormat):
     elif portFormat.isdigit():  ## ex. -p 55
         return [int(portFormat)]
     return ports
+
+def use_top_ports(num):
+    ports = []
+    cnt = 0
+    
+    with open("top-ports.txt", 'r') as file:
+        for port in file:
+            ports.append(int(port))
+            cnt += 1
+            if cnt == num:
+                break
+    return ports
