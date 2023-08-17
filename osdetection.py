@@ -18,8 +18,7 @@ def fingerprint_os(ttl):
     else:
         return "Unknown"
 
-def main():
-    target_host = "127.0.0.1"
+def os_detect(target_host):
 
     ttl = get_ttl(target_host)
     if ttl is not None:
@@ -28,6 +27,4 @@ def main():
         print(f"예상되는 OS: {os_guess}")
     else:
         print(f"탐지에 실패 :  {target_host}")
-
-if __name__ == "__main__":
-    main()
+        
