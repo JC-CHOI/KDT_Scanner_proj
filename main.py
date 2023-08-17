@@ -2,8 +2,8 @@ from datetime import datetime
 from scapy.all import *
 import argparse
 import icmp_ping_scan
-from PortParse import portParsing
-from port_scanner import perform_port_scan, get_src_port
+from PortParse import portParsing, use_top_ports
+from port_scanner import perform_port_scan
 from find_service import service_detect
 from osdetection import os_detect
 
@@ -12,6 +12,7 @@ def main():
     parser = argparse.ArgumentParser(description="Simple port scanner using Scapy")
     parser.add_argument("host", help="Target host IP address")
     parser.add_argument("-p", help="Port range to scan (e.g., 1-100 or 22,44,80)", type=portParsing)
+    parser.add_argument('--top-ports', type=int, help='Number of top ports to use')
     parser.add_argument("-sS", action="store_true", help="Use SYN scan mode")
     parser.add_argument("-sT", action="store_true", help="Use full scan mode")
     parser.add_argument("-sn", action="store_true", help="Perform ICMP Ping scan")
@@ -31,11 +32,14 @@ def main():
         icmp_ping_scan.icmp_ping_scan(target_host)
     else:    
         # 스캔 수행
-        num_threads = 32  # 원하는 스레드 수
-        if args.p is None:  # -p 옵션이 지정되지 않았을 때
-            target_ports = range(1, 1025)  # 기본적으로 1~1024 포트 범위 설정
-        else:
+        num_threads = 50  # 원하는 스레드 수
+        if args.p is not None:  # -p 옵션 지정
             target_ports = args.p
+        elif args.top_ports is not None:
+            target_ports = use_top_ports(args.top_ports)
+            print(target_ports)
+        else:
+            target_ports = range(1, 1025)  # 기본적으로 1~1024 포트 범위 설정
                 
         if args.sS:
             scan_type = "syn"
@@ -55,13 +59,14 @@ def main():
                 print("{:<{width}}{}".format(result[0], result[1], width=8))
         else:
             print("No open ports found.")
+        print(" ")
         
         if args.sV:
             service_detect(target_host, open_port)
             
     end_time = datetime.now()
     elapsed_time = end_time - start_time
-    print("Scan completed in:", elapsed_time)
+    print("\nScan completed in:", elapsed_time)
 
 if __name__ == "__main__":
     main()
