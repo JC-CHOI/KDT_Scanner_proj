@@ -33,6 +33,6 @@ def os_detect(target_host):
         os_guess = fingerprint_os(ttl)
         print(f"Target : {target_host}")
         print(f"TTL : {ttl}")
-        print(f"OS Guess based on TTL : {os_guess}")
+        print(f"OS Guess based on TTL : {os_guess}\n")
     else:
         print("TTL not found.")

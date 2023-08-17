@@ -15,7 +15,9 @@ def perform_port_scan(target_host, num_threads, target_ports, scan_type, use_ran
     port_segments = [target_ports[i::num_threads] for i in range(num_threads)]
     threads = []
     results = []
-
+    
+    print(f"Starting {scan_type} scan...\n")
+    
     for i in range(num_threads):
         if scan_type == "syn":
             thread = threading.Thread(target=scantype.syn_scanner, args=(target_host, port_segments[i], get_src_port(use_rand_src), results))
