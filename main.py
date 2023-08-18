@@ -33,7 +33,7 @@ def main():
         icmp_ping_scan.icmp_ping_scan(target_host)
     else:    
         # 스캔 수행
-        num_threads = os.cpu_count() * 2 # 스레드 수 조정
+        num_threads = os.cpu_count()# 스레드 수 조정
 
         if args.p is not None:  # -p 옵션 지정
             target_ports = args.p
