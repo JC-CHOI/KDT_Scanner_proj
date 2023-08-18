@@ -99,5 +99,9 @@ def service_detect(host, open_ports):
         if matched_service:
             print(f"Matched service on port {port}: {matched_service}")
         else:
-            print(f"Matched service on port {port}: {socket.getservbyport(port)}?")
+            try:
+                service_name = socket.getservbyport(port)
+            except OSError:
+                service_name = "Unknown"
+            print(f"Matched service on port {port}: {service_name}?")
             
