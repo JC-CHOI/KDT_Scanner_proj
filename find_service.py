@@ -115,6 +115,7 @@ def service_detect(host, open_ports):
     # open_ports에서 각 포트에 대해 get_matching_service 함수를 호출
     print("Starting detailed service detection...\n")
     for port in open_ports:
+        ssl_flag = False
         matched_service = get_matching_service(host, port, REQ, "TCP")        
 
         if not matched_service:
@@ -122,10 +123,14 @@ def service_detect(host, open_ports):
 
         if not matched_service:
             matched_service = get_matching_service(host, port, REQ_UDP, "SSL")
+            if matched_service:
+                ssl_flag = True
+
+        if matched_service and ssl_flag == True:
             print(f"Matched service on port {port}: {matched_service}s")
-            return
-        if matched_service:
+        elif matched_service and ssl_flag == False:
             print(f"Matched service on port {port}: {matched_service}")
+
         else:
             try:
                 service_name = socket.getservbyport(port)
