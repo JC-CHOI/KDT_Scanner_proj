@@ -6,6 +6,7 @@ from PortParse import portParsing, use_top_ports
 from port_scanner import perform_port_scan
 from find_service import service_detect
 from osdetection import os_detect
+import os
 
 def main():
     # 명령어 인수 파싱을 위한 argparse 설정
@@ -32,7 +33,8 @@ def main():
         icmp_ping_scan.icmp_ping_scan(target_host)
     else:    
         # 스캔 수행
-        num_threads = 50  # 원하는 스레드 수
+        num_threads = os.cpu_count() * 2 # 스레드 수 조정
+
         if args.p is not None:  # -p 옵션 지정
             target_ports = args.p
         elif args.top_ports is not None:
