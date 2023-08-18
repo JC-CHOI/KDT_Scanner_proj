@@ -17,9 +17,11 @@ ssl/http,,[ge] plain HTTP
 http,,^HTTP/\d+\.\d+
 imap,,^\* OK
 kerberos-sec,,krbtgt
+kerberos-sec,,\xa9!\x1b\x1f
 ldap,,\x02\x01\x01a
 ldap,,CN=NTDS Settings,CN=([^,]+),CN=Servers,CN=([^,]+),CN=Sites,CN=Configuration,DC=([^,]+),DC=([^,]+)
 ldap,,(?i)BIND required
+ldap,,(?i)openldap
 ms-wbt-server(RDP),,^\x03\0\0\x13
 ms-wbt-server(RDP),,^\x03\0\0\x0b
 msrpc,,^\x05\0\r\x03\x10\0\0\0\x18\0\0\0
