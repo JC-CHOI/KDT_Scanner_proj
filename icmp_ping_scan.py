@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+
 from scapy.all import *
 import socket
 import ipaddress

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+
 def portParsing(portFormat):
     ports = []
     if "-" in portFormat:  ## ex. -p 50-80
