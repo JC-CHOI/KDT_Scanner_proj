@@ -1,9 +1,13 @@
 import subprocess
 import re
+import platform
 
 def get_ttl(target_host):
     try:
-        result = subprocess.run(["ping", "-n", "1", target_host], capture_output=True, text=True, timeout=5)
+        if platform.system() == "Windows":
+            result = subprocess.run(["ping", "-n", "1", target_host], capture_output=True, text=True, timeout=5)
+        else: #Unix system
+            result = subprocess.run(["ping", "-c", "1", target_host], capture_output=True, text=True, timeout=5)
         output = result.stdout
 
         ttl_match = re.search(r"TTL=(\d+)", output) # TTL 값을 정규 표현식을 사용하여 추출
