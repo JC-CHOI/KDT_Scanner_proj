@@ -3,7 +3,7 @@
 
 import socket
 import re
-
+import ssl
 
 REQ = [
 	b'',
@@ -81,7 +81,31 @@ def get_matching_service(host, port, req_list, protocol="TCP"):
                         compiled_regex = re.compile(regex, re.IGNORECASE)
                         if compiled_regex.search(banner):
                             return service_name
+        elif protocol == "SSL":
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.settimeout(10)
+                s.connect((host, port))
 
+                try:
+                    ssl_context = ssl.create_default_context()
+                    ssl_context.check_hostname = False
+                    ssl_context.verify_mode = ssl.CERT_NONE
+
+                    secure_socket = ssl_context.wrap_socket(s, server_hostname=host)
+                    request_message = b"GET / HTTP/1.0\r\n\r\n"  # IMAPS 요청 메시지 예시
+
+                    secure_socket.send(request_message)
+                    banner = secure_socket.recv(1024)
+                    print(banner)
+                    for service_name, patterns in service_patterns.items():
+                            for regex in patterns:
+                                # compiled_regex = re.compile(regex, re.IGNORECASE)
+                                compiled_regex = re.compile(regex)
+                                if compiled_regex.search(banner):
+                                    return service_name
+                except (socket.timeout, socket.error):
+                    # 타임아웃이나 오류 발생하면 그냥 다음 요청으로 넘어감
+                    pass
     except Exception as e:
         pass
 
@@ -91,11 +115,15 @@ def service_detect(host, open_ports):
     # open_ports에서 각 포트에 대해 get_matching_service 함수를 호출
     print("Starting detailed service detection...\n")
     for port in open_ports:
-        matched_service = get_matching_service(host, port, REQ, "TCP")
-        
+        matched_service = get_matching_service(host, port, REQ, "TCP")        
+
         if not matched_service:
             matched_service = get_matching_service(host, port, REQ_UDP, "UDP")
 
+        if not matched_service:
+            matched_service = get_matching_service(host, port, REQ_UDP, "SSL")
+            print(f"Matched service on port {port}: {matched_service}s")
+            return
         if matched_service:
             print(f"Matched service on port {port}: {matched_service}")
         else:

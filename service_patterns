@@ -2,6 +2,7 @@ domain,,\x07version\x04bind\0
 ftp,,(?i)^220.*ftp
 ftp,,^220.*Features
 ftp,,^220 Interscan.*
+ftp,,^331.*Please specify the password
 ftp,,^421.*-Not
 ftp,,^421.*Proxy.*is
 ftp,,^421.*Sorry.*welcomed
