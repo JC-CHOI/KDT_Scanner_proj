@@ -37,7 +37,6 @@ def main():
             target_ports = args.p
         elif args.top_ports is not None:
             target_ports = use_top_ports(args.top_ports)
-            print(target_ports)
         else:
             target_ports = range(1, 1025)  # 기본적으로 1~1024 포트 범위 설정
                 
