@@ -13,7 +13,7 @@ def get_ttl(target_host):
             result = subprocess.run(["ping", "-c", "1", target_host], capture_output=True, text=True, timeout=5)
         output = result.stdout
 
-        ttl_match = re.search(r"TTL=(\d+)", output) # TTL 값을 정규 표현식을 사용하여 추출
+        ttl_match = re.search(r"(?i)TTL=(\d+)", output) # TTL 값을 정규 표현식을 사용하여 추출
         if ttl_match:
             ttl = int(ttl_match.group(1))
             return ttl
