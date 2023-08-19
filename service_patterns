@@ -1,3 +1,6 @@
+bgp,,^\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff
+chargen,,@ABCDEFGHIJKLMNOPQRSTUVWXYZ
+daytime,,^(?:0?[1-9]|[12][0-9]|3[01]) [A-Z]{3} (?:19|20)\d{2} \d{2}:\d{2}:\d{2} UTC\r\n$
 domain,,\x07version\x04bind\0
 ftp,,(?i)^220.*ftp
 ftp,,^220.*Features
@@ -17,24 +20,38 @@ ftp,,^550.*place
 ssl/http,,[ge] plain HTTP
 http,,^HTTP/\d+\.\d+
 imap,,^\* OK
-kerberos-sec,,krbtgt
-kerberos-sec,,\xa9!\x1b\x1f
+kerberos-sec,,\x06krbtgt\x1b\x02NM
+kerberos-sec,,\xaa\x1d0\x1b\xa0\x03\x02\x01\0\xa1\x140\x12\x1b\x06kadmin\x1b\x08changepw
 ldap,,\x02\x01\x01a
 ldap,,CN=NTDS Settings,CN=([^,]+),CN=Servers,CN=([^,]+),CN=Sites,CN=Configuration,DC=([^,]+),DC=([^,]+)
 ldap,,(?i)BIND required
-ldap,,(?i)openldap
+memcached,,^STAT pid \d+\r\nSTAT uptime \d+\r\n
+ms-sql,,^\x04\x01\0\x25\0\0\x01\0\0\0\x15\0\x06\x01\0\x1b\0\x01\x02\0\x1c\0\x01\x03\0\x1d\0\0
 ms-wbt-server(RDP),,^\x03\0\0\x13
 ms-wbt-server(RDP),,^\x03\0\0\x0b
 msrpc,,^\x05\0\r\x03\x10\0\0\0\x18\0\0\0
 mysql(MariaDB),,MariaDB
 mysql,,^.\0\0\0\xff
 mysql,,^.\0\0\0\x0a
+netbios-ns,,^\x80\xf0\x84\0\0\0\0\x01\0\0\0\0 CKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\0
 netbios-ssn,,^\x83\0\0\x01
+nntp,,[\w._-]+ Version: [\w._-]+ Posting Allowed \r\n
+nntp,,([\w._-]+) InterNetNews
+nntp,,NNTP[-\s][Ss]er
+nntp,,[\w._-]+ NNRP Service Ready
+nntp,,502 You have no permission to talk
+pc-anywhere,,^NR.*AHM_3___\0$
+pc-anywhere,,^NR.*AHM_2___\0$
 pptp,,\0\x01\x1a\+<M
 pop2,,^\+ POP2
 pop3,,^\+OK
 postgresql,,ProcessStartupPacket\0\0
 rpcbind,,^\x80\0\0.\x72\xfe
+rsync,,^@RSYNCD: \d+
+rsync,,^@ERROR: protocol startup error
+rtsp,,^RTSP/1\.0 200 OK\r\n
+rtsp,,^RTSP/1\.0 401 Unauthorized\r\n
+rtsp,,^RTSP/1\.0 400 Bad Request\r\n
 smtp,,(?i)^220.*smtp
 smtp,,^220.*mail
 smtp,,^220-InterScan.*
@@ -46,5 +63,6 @@ ssh,,^SSH-
 ssh,,^sshd: SSH
 telnet,,^\xff\xfd
 telnet,,^\xff\xfb
+time,,^[\xd5-\xef]...$
 vnc,,^RFB
 vmware-auth,,^220 VMware Authentication Daemon Version
