@@ -7,6 +7,11 @@ This program is a simple network scanner using Python.
 ## How to run
 Options are adjusted using argparse.    
 
+Required Installation:
+<pre><code>
+pip install scapy
+</code></pre>
+
 Default Usage:
 <pre><code>
 python main.py [host_name]
