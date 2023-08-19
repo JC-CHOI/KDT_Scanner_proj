@@ -26,6 +26,7 @@ ldap,,\x02\x01\x01a
 ldap,,CN=NTDS Settings,CN=([^,]+),CN=Servers,CN=([^,]+),CN=Sites,CN=Configuration,DC=([^,]+),DC=([^,]+)
 ldap,,(?i)BIND required
 memcached,,^STAT pid \d+\r\nSTAT uptime \d+\r\n
+microsoft-ds,,\x00\x00\x00#\xffSMBr
 ms-sql,,^\x04\x01\0\x25\0\0\x01\0\0\0\x15\0\x06\x01\0\x1b\0\x01\x02\0\x1c\0\x01\x03\0\x1d\0\0
 ms-wbt-server(RDP),,^\x03\0\0\x13
 ms-wbt-server(RDP),,^\x03\0\0\x0b
@@ -66,4 +67,3 @@ telnet,,^\xff\xfb
 time,,^[\xd5-\xef]...$
 vnc,,^RFB
 vmware-auth,,^220 VMware Authentication Daemon Version
-microsoft-ds,,\x00\x00\x00#\xffSMBr
