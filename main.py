@@ -54,9 +54,9 @@ def main():
                 
         results = perform_port_scan(target_host, num_threads, target_ports, scan_type, args.rand_src)
         
+        open_port = []
         # 열린 포트 출력
         if results:
-            open_port = []
             print("port    service")
             for result in results:
                 open_port.append(result[0])
