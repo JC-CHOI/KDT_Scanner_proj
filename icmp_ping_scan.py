@@ -69,7 +69,7 @@ def send_icmp_request(target_ips):
     up_hosts = []
     # 각 IP에 대해 ICMP Echo Request 전송
     # timeout 시간 줄여둔 상태라 정확도 떨어지면 시간 늘려야 함
-    response = sr1(IP(dst=str(target_ips)) / ICMP(), timeout=0.5, verbose=0)
+    response = sr1(IP(dst=str(target_ips)) / ICMP(), timeout=5, verbose=0)
     if response and response.haslayer(ICMP):
         # 응답이 있으면 up_hosts에 추가
         up_hosts.append(target_ips)
