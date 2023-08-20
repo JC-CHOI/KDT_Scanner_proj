@@ -30,7 +30,7 @@ Input type for ping scan target: 127.0.0.1-10, url, CIDR
 
 Port Options:
 <pre><code>
---rand-src: Use random source port
+--rand-src: Use random source port (Currently functional only with SYN scan)
 -p [ports]: Port range to scan (e.g., 1-100 or 22,44,80)
---top-port [num]: Scan top ports up to the specified number
+--top-ports [num]: Scan top ports up to the specified number
 </code></pre>
